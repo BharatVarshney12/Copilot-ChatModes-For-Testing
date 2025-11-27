@@ -30,14 +30,9 @@ namespace SeleniumTests.Tests
         [Category("Dashboard")]
         public void AfterLogin_ShouldDisplayWelcomeMessage()
         {
-            // Arrange
-            const string loginUrl = "https://example.com/login";
-            const string username = "testuser@example.com";
-            const string password = "SecurePassword123";
-
             // Act
-            _loginPage.NavigateTo(loginUrl);
-            _loginPage.Login(username, password);
+            _loginPage.NavigateTo(TestConfig.LoginUrl);
+            _loginPage.Login(TestConfig.ValidUsername, TestConfig.ValidPassword);
 
             // Assert
             Assert.That(_dashboardPage.IsWelcomeMessageDisplayed(), Is.True);
@@ -51,14 +46,9 @@ namespace SeleniumTests.Tests
         [Category("Dashboard")]
         public void AfterLogin_ShouldDisplayUserProfile()
         {
-            // Arrange
-            const string loginUrl = "https://example.com/login";
-            const string username = "testuser@example.com";
-            const string password = "SecurePassword123";
-
             // Act
-            _loginPage.NavigateTo(loginUrl);
-            _loginPage.Login(username, password);
+            _loginPage.NavigateTo(TestConfig.LoginUrl);
+            _loginPage.Login(TestConfig.ValidUsername, TestConfig.ValidPassword);
 
             // Assert
             Assert.That(_dashboardPage.IsUserProfileDisplayed(), Is.True);
@@ -72,14 +62,9 @@ namespace SeleniumTests.Tests
         [Category("Logout")]
         public void Logout_ShouldReturnToLoginPage()
         {
-            // Arrange
-            const string loginUrl = "https://example.com/login";
-            const string username = "testuser@example.com";
-            const string password = "SecurePassword123";
-
             // Act
-            _loginPage.NavigateTo(loginUrl);
-            _loginPage.Login(username, password);
+            _loginPage.NavigateTo(TestConfig.LoginUrl);
+            _loginPage.Login(TestConfig.ValidUsername, TestConfig.ValidPassword);
             _dashboardPage.Logout();
 
             // Assert

@@ -28,14 +28,9 @@ namespace SeleniumTests.Tests
         [Category("Login")]
         public void ValidLogin_ShouldNavigateToDashboard()
         {
-            // Arrange
-            const string loginUrl = "https://example.com/login";
-            const string username = "testuser@example.com";
-            const string password = "SecurePassword123";
-
             // Act
-            _loginPage.NavigateTo(loginUrl);
-            _loginPage.Login(username, password);
+            _loginPage.NavigateTo(TestConfig.LoginUrl);
+            _loginPage.Login(TestConfig.ValidUsername, TestConfig.ValidPassword);
 
             // Assert
             Assert.That(_loginPage.CurrentUrl, Does.Contain("/dashboard"));
@@ -48,14 +43,9 @@ namespace SeleniumTests.Tests
         [Category("Login")]
         public void InvalidLogin_ShouldDisplayErrorMessage()
         {
-            // Arrange
-            const string loginUrl = "https://example.com/login";
-            const string username = "invalid@example.com";
-            const string password = "wrongpassword";
-
             // Act
-            _loginPage.NavigateTo(loginUrl);
-            _loginPage.Login(username, password);
+            _loginPage.NavigateTo(TestConfig.LoginUrl);
+            _loginPage.Login(TestConfig.InvalidUsername, TestConfig.InvalidPassword);
 
             // Assert
             Assert.That(_loginPage.IsErrorMessageDisplayed(), Is.True);
@@ -70,13 +60,9 @@ namespace SeleniumTests.Tests
         [Category("Validation")]
         public void EmptyUsername_ShouldShowValidationError()
         {
-            // Arrange
-            const string loginUrl = "https://example.com/login";
-            const string password = "SomePassword123";
-
             // Act
-            _loginPage.NavigateTo(loginUrl);
-            _loginPage.EnterPassword(password);
+            _loginPage.NavigateTo(TestConfig.LoginUrl);
+            _loginPage.EnterPassword(TestConfig.ValidPassword);
             _loginPage.ClickLoginButton();
 
             // Assert

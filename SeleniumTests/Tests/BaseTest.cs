@@ -43,7 +43,7 @@ namespace SeleniumTests.Tests
             services.AddSeleniumServices(options =>
             {
                 options.BrowserType = BrowserType.Chrome;
-                options.Headless = true;
+                options.Headless = TestConfig.Headless;
                 options.ImplicitWaitSeconds = 10;
                 options.PageLoadTimeoutSeconds = 30;
                 options.MaximizeWindow = true;
