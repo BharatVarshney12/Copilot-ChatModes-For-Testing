@@ -55,6 +55,73 @@ This repository does not ship a license by default — if you'd like to apply on
 
 ---
 
+## Selenium Tests with Dependency Injection
+
+This repository also includes a sample Selenium test project (`SeleniumTests/`) that demonstrates the **dependency injection pattern** for managing WebDriver instances. This approach makes the code more maintainable, testable, and easier to understand.
+
+### Project Structure
+
+```
+SeleniumTests/
+├── Driver/
+│   ├── BrowserType.cs         # Enum for supported browser types
+│   ├── DriverOptions.cs       # Configuration options for WebDriver
+│   ├── IDriverFactory.cs      # Interface for driver factory
+│   └── DriverFactory.cs       # Implementation of driver factory
+├── DependencyInjection/
+│   └── ServiceCollectionExtensions.cs  # DI configuration
+├── Pages/
+│   ├── BasePage.cs            # Base page object with common methods
+│   ├── LoginPage.cs           # Login page object
+│   └── DashboardPage.cs       # Dashboard page object
+├── Tests/
+│   ├── BaseTest.cs            # Base test class with DI setup
+│   ├── LoginTests.cs          # Login test examples
+│   └── DashboardTests.cs      # Dashboard test examples
+└── SeleniumTests.csproj       # Project file with dependencies
+```
+
+### Key Features
+
+1. **Driver Factory Pattern**: The `DriverFactory` class centralizes WebDriver creation and configuration, supporting Chrome, Firefox, and Edge browsers with configurable options (headless mode, timeouts, etc.).
+
+2. **Dependency Injection**: Uses Microsoft.Extensions.DependencyInjection to register and resolve dependencies:
+   - `IDriverFactory` is registered as scoped (new instance per test)
+   - Page objects are registered as transient services
+   - Configuration options are registered as singletons
+
+3. **Page Object Model**: All page objects inherit from `BasePage` and receive the `IDriverFactory` through constructor injection.
+
+4. **Base Test Class**: The `BaseTest` class sets up the DI container before each test and cleans up the WebDriver after each test.
+
+### Running the Tests
+
+```bash
+cd SeleniumTests
+dotnet restore
+dotnet build
+dotnet test
+```
+
+### Customizing Driver Configuration
+
+Override the `ConfigureServices` method in your test class:
+
+```csharp
+protected override void ConfigureServices(IServiceCollection services)
+{
+    services.AddSeleniumServices(options =>
+    {
+        options.BrowserType = BrowserType.Firefox;
+        options.Headless = true;
+        options.ImplicitWaitSeconds = 15;
+    });
+}
+```
+
+---
+
 Files in this repo:
 
 - `SeleniumToPlaywrightConverter/🎭 Selenium ➡ Playwright.chatmode.md` — Selenium to Playwright conversion chatmode (example included).
+- `SeleniumTests/` — Sample Selenium test project with dependency injection pattern.
